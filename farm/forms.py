@@ -55,7 +55,7 @@ class AnimalForm(forms.ModelForm):
             'tag_no': 'ટેગ નંબર',
             'animal_type': 'પ્રાણી પ્રકાર',
             'breed': 'જાત',
-            'insemination_date': 'સેવાની તારીખ',
+            'insemination_date': 'બીજદાનની તારીખ',
         }
         widgets = {
             'tag_no': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'ટેગ નંબર દાખલ કરો'}),
