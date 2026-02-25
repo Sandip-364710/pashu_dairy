@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+
+{% block page_title %}ડેશબોર્ડ{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Stats Cards -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card stat-card">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-uppercase mb-1">કુલ પ્રાણીઓ</div>
+                        <div class="stat-number">{{ total_animals }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="bi bi-cow fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card stat-card">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-uppercase mb-1">આજનું દૂધ</div>
+                        <div class="stat-number">{{ today_total_liters|floatformat:1 }} L</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="bi bi-droplet-fill fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card stat-card">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-uppercase mb-1">આજની આવક</div>
+                        <div class="stat-number">₹{{ today_total_amount|floatformat:0 }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="bi bi-currency-rupee fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card stat-card">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-uppercase mb-1">ગાય/ભેંસ</div>
+                        <div class="stat-number">{{ total_cows }}/{{ total_buffaloes }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="bi bi-pie-chart-fill fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Alerts Section -->
+<div class="row">
+    <div class="col-12">
+        <div class="card alert-card mb-4">
+            <div class="card-header bg-warning text-dark">
+                <i class="bi bi-exclamation-triangle-fill"></i> મહત્વપૂર્ણ સૂચનાઓ
+            </div>
+            <div class="card-body">
+                {% if checkup_alerts %}
+                    <div class="alert alert-warning" role="alert">
+                        <h6 class="alert-heading">
+                            <i class="bi bi-bell-fill"></i> તપાસ અલર્ટ - ૭૫ દિવસ પૂર્ણ
+                        </h6>
+                        <p class="mb-2">નીચેના પ્રાણીઓની તપાસ કરાવવી આવશ્યક છે:</p>
+                        <ul class="mb-0">
+                            {% for animal in checkup_alerts %}
+                                <li>
+                                    {{ animal.get_animal_type_display }} - {{ animal.tag_no }}
+                                    (સેવા: {{ animal.insemination_date }})
+                                    <a href="{% url 'update_checkup' animal.id %}" class="btn btn-sm btn-success ms-2">
+                                        <i class="bi bi-check-circle"></i> તપાસ સ્થિતિ
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% else %}
+                    <div class="alert alert-success" role="alert">
+                        <i class="bi bi-check-circle-fill"></i> હાલમાં કોઈ તપાસ અલર્ટ નથી.
+                    </div>
+                {% endif %}
+
+                {% if upcoming_deliveries %}
+                    <div class="alert alert-info mt-3" role="alert">
+                        <h6 class="alert-heading">
+                            <i class="bi bi-calendar-heart"></i> આગામી પ્રસવ
+                        </h6>
+                        <p class="mb-2">નીચેના પ્રાણીઓનો પ્રસવ નજીક છે:</p>
+                        <ul class="mb-0">
+                            {% for animal in upcoming_deliveries %}
+                                <li>
+                                    {{ animal.get_animal_type_display }} - {{ animal.tag_no }}
+                                    (અપેક્ષિત પ્રસવ: {{ animal.expected_delivery_date }})
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-lightning-fill"></i> ઝડપી ક્રિયાઓ
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6 col-md-3 mb-3">
+                        <a href="{% url 'add_animal' %}" class="btn btn-success btn-lg w-100">
+                            <i class="bi bi-plus-circle-fill d-block mb-2"></i>
+                            નવું પ્રાણી ઉમેરો
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-3 mb-3">
+                        <a href="{% url 'add_milk_record' %}" class="btn btn-primary btn-lg w-100">
+                            <i class="bi bi-droplet-fill d-block mb-2"></i>
+                            દૂધ રેકોર્ડ
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-3 mb-3">
+                        <a href="{% url 'animal_list' %}" class="btn btn-info btn-lg w-100">
+                            <i class="bi bi-list-ul d-block mb-2"></i>
+                            પ્રાણીઓની યાદી
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-3 mb-3">
+                        <a href="{% url 'milk_records' %}" class="btn btn-warning btn-lg w-100">
+                            <i class="bi bi-graph-up d-block mb-2"></i>
+                            દૂધ રિપોર્ટ
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Milk Records -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-clock-history"></i> તાજેતરના દૂધ રેકોર્ડ્સ
+            </div>
+            <div class="card-body">
+                {% if recent_milk_records %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>તારીખ</th>
+                                    <th>પ્રાણી</th>
+                                    <th>લીટર</th>
+                                    <th>કુલ રકમ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for record in recent_milk_records %}
+                                    <tr>
+                                        <td>{{ record.date }}</td>
+                                        <td>{{ record.animal.tag_no }}</td>
+                                        <td>{{ record.liters }} L</td>
+                                        <td>₹{{ record.total_amount }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="{% url 'milk_records' %}" class="btn btn-primary">
+                            બધા રેકોર્ડ્સ જોઓ <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="bi bi-droplet" style="font-size: 3rem; color: #ccc;"></i>
+                        <p class="mt-3 text-muted">હજુ સુધી કોઈ દૂધ રેકોર્ડ નથી.</p>
+                        <a href="{% url 'add_milk_record' %}" class="btn btn-success">
+                            <i class="bi bi-plus-circle"></i> પ્રથમ રેકોર્ડ ઉમેરો
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

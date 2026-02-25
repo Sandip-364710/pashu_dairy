@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block page_title %}નવું પ્રાણી ઉમેરો{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-plus-circle-fill"></i> નવું પ્રાણી ઉમેરો</h5>
+            </div>
+            <div class="card-body">
+                {% if step == 1 %}
+                    <!-- Step 1: Animal Type Selection -->
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="text-center mb-4">
+                            <h6 class="text-muted">પગલું 1 માંથી 2: પ્રાણી પ્રકાર પસંદ કરો</h6>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="{{ form.animal_type.id_for_label }}" class="form-label fw-bold">{{ form.animal_type.label }}</label>
+                            {{ form.animal_type }}
+                            {% if form.animal_type.errors %}
+                                <div class="text-danger mt-2">
+                                    {{ form.animal_type.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" name="select_animal_type" class="btn btn-primary btn-lg">
+                                <i class="bi bi-arrow-right-circle"></i> આગળ વધો
+                            </button>
+                            <a href="{% url 'dashboard' %}" class="btn btn-secondary btn-lg">
+                                <i class="bi bi-x-circle"></i> રદ કરો
+                            </a>
+                        </div>
+                    </form>
+                
+                {% elif step == 2 %}
+                    <!-- Step 2: Full Animal Form -->
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="text-center mb-4">
+                            <h6 class="text-muted">પગલું 2 માંથી 2: {{ animal_type_display }}ની માહિતી દાખલ કરો</h6>
+                        </div>
+                        
+                        <!-- Hidden field for animal type -->
+                        <input type="hidden" name="animal_type" value="{{ selected_animal_type }}">
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.tag_no.id_for_label }}" class="form-label fw-bold">{{ form.tag_no.label }}</label>
+                            {{ form.tag_no }}
+                            {% if form.tag_no.errors %}
+                                <div class="text-danger mt-2">
+                                    {{ form.tag_no.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">પ્રાણી પ્રકાર</label>
+                            <input type="text" class="form-control" value="{{ animal_type_display }}" readonly>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.breed.id_for_label }}" class="form-label fw-bold">{{ form.breed.label }}</label>
+                            {{ form.breed }}
+                            {% if form.breed.errors %}
+                                <div class="text-danger mt-2">
+                                    {{ form.breed.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.insemination_date.id_for_label }}" class="form-label fw-bold">{{ form.insemination_date.label }}</label>
+                            {{ form.insemination_date }}
+                            {% if form.insemination_date.errors %}
+                                <div class="text-danger mt-2">
+                                    {{ form.insemination_date.errors.0 }}
+                                </div>
+                            {% endif %}
+                            <small class="form-text text-muted">સેવાની તારીખ દાખલ કરો. 75 દિવસ પછી તપાસ અલર્ટ મળશે.</small>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" name="add_animal" class="btn btn-success btn-lg">
+                                <i class="bi bi-check-circle"></i> પ્રાણી ઉમેરો
+                            </button>
+                            <a href="{% url 'add_animal' %}" class="btn btn-outline-secondary btn-lg">
+                                <i class="bi bi-arrow-left-circle"></i> પાછળ જાઓ
+                            </a>
+                            <a href="{% url 'dashboard' %}" class="btn btn-secondary btn-lg">
+                                <i class="bi bi-x-circle"></i> રદ કરો
+                            </a>
+                        </div>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

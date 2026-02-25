@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ડેરી મેનેજમેન્ટ સિસ્ટમ{% endblock %}</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-green: #28a745;
+            --light-green: #d4edda;
+            --dark-green: #155724;
+        }
+        
+        .navbar-brand {
+            font-weight: bold;
+            color: var(--primary-green) !important;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-green);
+            border-color: var(--primary-green);
+        }
+        
+        .btn-primary:hover {
+            background-color: #218838;
+            border-color: #218838;
+        }
+        
+        .card {
+            border: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .card-header {
+            background-color: var(--primary-green);
+            color: white;
+            font-weight: bold;
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #dee2e6;
+            padding: 0.5rem 0;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .bottom-nav .nav-link {
+            color: #6c757d;
+            text-align: center;
+            padding: 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        .bottom-nav .nav-link.active {
+            color: var(--primary-green);
+        }
+        
+        .bottom-nav .nav-link i {
+            display: block;
+            font-size: 1.2rem;
+            margin-bottom: 0.2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .bottom-nav {
+                display: flex;
+            }
+            .desktop-sidebar {
+                display: none !important;
+            }
+            .main-content {
+                margin-bottom: 60px !important;
+            }
+        }
+        
+        .alert-card {
+            border-left: 4px solid var(--primary-green);
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary-green), #20c997);
+            color: white;
+        }
+        
+        .stat-card .card-body {
+            padding: 1.5rem;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .mobile-only {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-only {
+                display: block;
+            }
+        }
+        
+        .desktop-only {
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .desktop-only {
+                display: none;
+            }
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'dashboard' %}">
+                <i class="bi bi-cup-hot-fill"></i> ડેરી મેનેજર
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'profile' %}">
+                                <i class="bi bi-person-circle"></i> {{ user.name }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">
+                                <i class="bi bi-box-arrow-right"></i> લોગઆઉટ
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">લોગિન</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'register' %}">નોંધણી</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Desktop Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar desktop-sidebar">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" href="{% url 'dashboard' %}">
+                                <i class="bi bi-house-door"></i> હોમ
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'add_animal' %}active{% endif %}" href="{% url 'add_animal' %}">
+                                <i class="bi bi-plus-circle"></i> પ્રાણી ઉમેરો
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'animal_list' %}active{% endif %}" href="{% url 'animal_list' %}">
+                                <i class="bi bi-list-ul"></i> પ્રાણીઓની યાદી
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'add_milk_record' %}active{% endif %}" href="{% url 'add_milk_record' %}">
+                                <i class="bi bi-droplet"></i> દૂધ રેકોર્ડ
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'milk_records' %}active{% endif %}" href="{% url 'milk_records' %}">
+                                <i class="bi bi-graph-up"></i> દૂધ રિપોર્ટ
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}" href="{% url 'profile' %}">
+                                <i class="bi bi-person"></i> પ્રોફાઇલ
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">{% block page_title %}ડેરી મેનેજમેન્ટ{% endblock %}</h1>
+                </div>
+
+                <!-- Messages -->
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    {% if user.is_authenticated %}
+    <nav class="bottom-nav">
+        <div class="container">
+            <ul class="nav">
+                <li class="nav-item flex-fill">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" href="{% url 'dashboard' %}">
+                        <i class="bi bi-house-door-fill"></i>
+                        <span>હોમ</span>
+                    </a>
+                </li>
+                <li class="nav-item flex-fill">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'add_animal' %}active{% endif %}" href="{% url 'add_animal' %}">
+                        <i class="bi bi-plus-circle-fill"></i>
+                        <span>પ્રાણી</span>
+                    </a>
+                </li>
+                <li class="nav-item flex-fill">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'milk_records' %}active{% endif %}" href="{% url 'milk_records' %}">
+                        <i class="bi bi-droplet-fill"></i>
+                        <span>દૂધ</span>
+                    </a>
+                </li>
+                <li class="nav-item flex-fill">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}" href="{% url 'profile' %}">
+                        <i class="bi bi-person-fill"></i>
+                        <span>પ્રોફાઇલ</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    {% endif %}
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block page_title %}લોગિન{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+        <div class="card">
+            <div class="card-header text-center">
+                <h4><i class="bi bi-cup-hot-fill"></i> ડેરી મેનેજર</h4>
+                <p class="mb-0">લોગિન કરો</p>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.mobile.id_for_label }}" class="form-label">{{ form.mobile.label }}</label>
+                        {{ form.mobile }}
+                        {% if form.mobile.errors %}
+                            <div class="text-danger">
+                                {{ form.mobile.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.password.id_for_label }}" class="form-label">{{ form.password.label }}</label>
+                        {{ form.password }}
+                        {% if form.password.errors %}
+                            <div class="text-danger">
+                                {{ form.password.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="bi bi-box-arrow-in-right"></i> લોગિન
+                        </button>
+                    </div>
+                </form>
+                
+                <hr>
+                
+                <div class="text-center">
+                    <p class="mb-0">નવા વપરાશકર્તા? <a href="{% url 'register' %}">અહીં નોંધણી કરો</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
