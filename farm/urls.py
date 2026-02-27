@@ -21,4 +21,6 @@ urlpatterns = [
     path('milk/add/', views.AddMilkRecordView.as_view(), name='add_milk_record'),
     path('milk/', views.MilkRecordsView.as_view(), name='milk_records'),
     path('milk-records/', lambda request: redirect('milk_records'), name='milk_records_redirect'),
+    
+    path('guidance/', views.guidance_view, name='guidance'),
 ]

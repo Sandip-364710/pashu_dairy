@@ -50,7 +50,6 @@ class LoginView(FormView):
 class LogoutView(View):
     def get(self, request):
         logout(request)
-        messages.success(request, 'તમે સફળતાપૂર્વક લોગઆઉટ થયા છો')
         return redirect('login')
 
 
@@ -80,7 +79,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         # Check-up alerts (75 days completed)
         checkup_alerts = animals.filter(
             checkup_status='pending',
-            insemination_date__lte=date.today() - timedelta(days=75)
+            insemination_date__lte=date.today() - timedelta(days=90)
         )
         
         # Upcoming deliveries (positive checkup status)
@@ -253,3 +252,8 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['user'] = self.request.user
         return context
+
+
+@login_required
+def guidance_view(request):
+    return render(request, 'farm/guidance.html')

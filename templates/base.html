@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}ડેરી મેનેજમેન્ટ સિસ્ટમ{% endblock %}</title>
+    <title>{% block title %}મારું પશુધન 🐄{% endblock %}</title>
     
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -15,32 +15,211 @@
             --primary-green: #28a745;
             --light-green: #d4edda;
             --dark-green: #155724;
+            --bg-dark: #0a0e12;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --border-light: rgba(255, 255, 255, 0.1);
+            --text-primary: #fff;
+            --text-secondary: #8899a6;
         }
         
-        .navbar-brand {
-            font-weight: bold;
-            color: var(--primary-green) !important;
+        body, html {
+            background: radial-gradient(circle at center, #1a2a3a 0%, #0a0e12 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
         }
         
-        .btn-primary {
-            background-color: var(--primary-green);
-            border-color: var(--primary-green);
+        .main-container {
+            background: transparent;
+            min-height: 100vh;
         }
         
-        .btn-primary:hover {
-            background-color: #218838;
-            border-color: #218838;
+        .sidebar {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+        }
+        
+        .sidebar .nav-link {
+            color: var(--text-secondary);
+            padding: 12px 16px;
+            margin: 5px 0;
+            border-radius: 12px;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+        
+        .sidebar .nav-link:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            border-color: var(--border-light);
+        }
+        
+        .sidebar .nav-link.active {
+            background: rgba(52, 152, 219, 0.2);
+            color: #3498db;
+            border-color: #3498db;
+        }
+        
+        .sidebar .nav-link i {
+            margin-right: 10px;
+        }
+        
+        .main-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+        }
+        
+        .page-header {
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
         }
         
         .card {
-            border: none;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            color: var(--text-primary);
+            border-radius: 12px;
+            margin-bottom: 20px;
         }
         
         .card-header {
-            background-color: var(--primary-green);
-            color: white;
+            background: rgba(52, 152, 219, 0.2);
+            border-bottom: 1px solid var(--border-light);
+            color: #3498db;
             font-weight: bold;
+            padding: 15px 20px;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        .btn-primary {
+            background: #3498db;
+            border-color: #3498db;
+            color: var(--text-primary);
+        }
+        
+        .btn-primary:hover {
+            background: #2980b9;
+            border-color: #2980b9;
+        }
+        
+        .alert {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            color: var(--text-primary);
+        }
+        
+        .form-control {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-light);
+            color: var(--text-primary);
+            border-radius: 12px;
+        }
+        
+        .form-control:focus {
+            background: rgba(0, 0, 0, 0.3);
+            border-color: #3498db;
+            color: var(--text-primary);
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
+        }
+        
+        .form-control::placeholder {
+            color: var(--text-secondary);
+        }
+        
+        .table {
+            color: var(--text-primary);
+            width: 100%;
+            margin-bottom: 1rem;
+            vertical-align: middle;
+            border-color: var(--border-light);
+        }
+        
+        .table th,
+        .table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+        .table thead th {
+            background-color: rgba(52, 152, 219, 0.2);
+            color: #3498db;
+            border-bottom: 1px solid var(--border-light);
+            font-weight: bold;
+            text-align: left;
+        }
+        
+        .table tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        .table-responsive {
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            overflow-x: auto;
+        }
+        
+        .logout-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-light);
+        }
+        
+        .logout-btn {
+            width: 100%;
+            padding: 12px;
+            background: rgba(220, 53, 69, 0.2);
+            border: 1px solid #dc3545;
+            border-radius: 12px;
+            color: #dc3545;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(220, 53, 69, 0.3);
+            color: #dc3545;
+            transform: translateY(-2px);
+        }
+        
+        .logout-btn i {
+            margin-right: 8px;
+        }
+        
+        .user-info {
+            padding: 15px;
+            background: rgba(52, 152, 219, 0.1);
+            border: 1px solid #3498db;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .user-info .user-name {
+            font-weight: 600;
+            color: #3498db;
+            margin-bottom: 5px;
+        }
+        
+        .user-info .user-role {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
         }
         
         .bottom-nav {
@@ -48,22 +227,23 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: white;
-            border-top: 1px solid #dee2e6;
+            background: var(--bg-card);
+            border-top: 1px solid var(--border-light);
             padding: 0.5rem 0;
             z-index: 1000;
             display: none;
+            backdrop-filter: blur(10px);
         }
         
         .bottom-nav .nav-link {
-            color: #6c757d;
+            color: var(--text-secondary);
             text-align: center;
-            padding: 0.5rem;
-            font-size: 0.8rem;
+            padding: 0.3rem;
+            font-size: 0.7rem;
         }
         
         .bottom-nav .nav-link.active {
-            color: var(--primary-green);
+            color: #3498db;
         }
         
         .bottom-nav .nav-link i {
@@ -85,11 +265,11 @@
         }
         
         .alert-card {
-            border-left: 4px solid var(--primary-green);
+            border-left: 4px solid #3498db;
         }
         
         .stat-card {
-            background: linear-gradient(135deg, var(--primary-green), #20c997);
+            background: linear-gradient(135deg, #3498db, #2980b9);
             color: white;
         }
         
@@ -100,6 +280,17 @@
         .stat-number {
             font-size: 2rem;
             font-weight: bold;
+        }
+        
+        .btn-outline-primary {
+            color: #3498db;
+            border-color: #3498db;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: #3498db;
+            color: #fff;
         }
         
         .mobile-only {
@@ -126,48 +317,22 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-        <div class="container">
-            <a class="navbar-brand" href="{% url 'dashboard' %}">
-                <i class="bi bi-cup-hot-fill"></i> ડેરી મેનેજર
-            </a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'profile' %}">
-                                <i class="bi bi-person-circle"></i> {{ user.name }}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'logout' %}">
-                                <i class="bi bi-box-arrow-right"></i> લોગઆઉટ
-                            </a>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}">લોગિન</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'register' %}">નોંધણી</a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <!-- Top Navigation Removed -->
 
-    <div class="container-fluid">
+    <div class="container-fluid main-container">
         <div class="row">
             <!-- Desktop Sidebar -->
-            <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar desktop-sidebar">
-                <div class="position-sticky pt-3">
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar desktop-sidebar">
+                <div class="position-sticky">
+                    {% if user.is_authenticated %}
+                        <div class="user-info">
+                            <div class="user-name">
+                                <i class="bi bi-person-circle"></i> {{ user.name }}
+                            </div>
+                            <div class="user-role">પશુપાલક</div>
+                        </div>
+                    {% endif %}
+                    
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" href="{% url 'dashboard' %}">
@@ -195,17 +360,36 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'guidance' %}active{% endif %}" href="{% url 'guidance' %}">
+                                <i class="bi bi-book"></i> પશુ માર્ગદર્શન
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}" href="{% url 'profile' %}">
                                 <i class="bi bi-person"></i> પ્રોફાઇલ
                             </a>
                         </li>
                     </ul>
                 </div>
+                
+                {% if user.is_authenticated %}
+                    <div class="logout-section">
+                        <a href="{% url 'logout' %}" class="logout-btn">
+                            <i class="bi bi-box-arrow-right"></i> લોગઆઉટ
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="logout-section">
+                        <a href="{% url 'login' %}" class="logout-btn" style="background: rgba(52, 152, 219, 0.2); border-color: #3498db; color: #3498db;">
+                            <i class="bi bi-box-arrow-in-right"></i> લોગિન
+                        </a>
+                    </div>
+                {% endif %}
             </nav>
 
             <!-- Main Content -->
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <main class="col-md-9 ms-sm-auto col-lg-10 main-content">
+                <div class="page-header">
                     <h1 class="h2">{% block page_title %}ડેરી મેનેજમેન્ટ{% endblock %}</h1>
                 </div>
 
@@ -245,6 +429,12 @@
                     <a class="nav-link {% if request.resolver_match.url_name == 'milk_records' %}active{% endif %}" href="{% url 'milk_records' %}">
                         <i class="bi bi-droplet-fill"></i>
                         <span>દૂધ</span>
+                    </a>
+                </li>
+                <li class="nav-item flex-fill">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'guidance' %}active{% endif %}" href="{% url 'guidance' %}">
+                        <i class="bi bi-book-fill"></i>
+                        <span>માર્ગદર્શન</span>
                     </a>
                 </li>
                 <li class="nav-item flex-fill">

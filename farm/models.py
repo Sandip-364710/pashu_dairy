@@ -87,7 +87,7 @@ class Animal(models.Model):
     @property
     def checkup_date(self):
         """Calculate check-up date (insemination + 75 days)"""
-        return self.insemination_date + timedelta(days=75)
+        return self.insemination_date + timedelta(days=90)
     
     @property
     def expected_delivery_date(self):
@@ -105,7 +105,7 @@ class Animal(models.Model):
     @property
     def needs_checkup_alert(self):
         """Check if 75 days alert needed"""
-        return self.checkup_status == 'pending' and self.days_since_insemination >= 75
+        return self.checkup_status == 'pending' and self.days_since_insemination >= 90
 
 
 class MilkRecord(models.Model):

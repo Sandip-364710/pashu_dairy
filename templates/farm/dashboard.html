@@ -79,44 +79,44 @@
             </div>
             <div class="card-body">
                 {% if checkup_alerts %}
-                    <div class="alert alert-warning" role="alert">
-                        <h6 class="alert-heading">
-                            <i class="bi bi-bell-fill"></i> તપાસ અલર્ટ - ૭૫ દિવસ પૂર્ણ
-                        </h6>
-                        <p class="mb-2">નીચેના પ્રાણીઓની તપાસ કરાવવી આવશ્યક છે:</p>
-                        <ul class="mb-0">
-                            {% for animal in checkup_alerts %}
-                                <li>
-                                    {{ animal.get_animal_type_display }} - {{ animal.tag_no }}
-                                    (સેવા: {{ animal.insemination_date }})
-                                    <a href="{% url 'update_checkup' animal.id %}" class="btn btn-sm btn-success ms-2">
-                                        <i class="bi bi-check-circle"></i> તપાસ સ્થિતિ
-                                    </a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+                <div class="alert alert-warning" role="alert">
+                    <h6 class="alert-heading">
+                        <i class="bi bi-bell-fill"></i> તપાસ અલર્ટ - 90 દિવસ પૂર્ણ
+                    </h6>
+                    <p class="mb-2">નીચેના પ્રાણીઓની તપાસ કરાવવી આવશ્યક છે:</p>
+                    <ul class="mb-0">
+                        {% for animal in checkup_alerts %}
+                        <li>
+                            {{ animal.get_animal_type_display }} - {{ animal.tag_no }}
+                            (સેવા: {{ animal.insemination_date }})
+                            <a href="{% url 'update_checkup' animal.id %}" class="btn btn-sm btn-success ms-2">
+                                <i class="bi bi-check-circle"></i> તપાસ સ્થિતિ
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
                 {% else %}
-                    <div class="alert alert-success" role="alert">
-                        <i class="bi bi-check-circle-fill"></i> હાલમાં કોઈ તપાસ અલર્ટ નથી.
-                    </div>
+                <div class="alert alert-success" role="alert">
+                    <i class="bi bi-check-circle-fill"></i> હાલમાં કોઈ તપાસ અલર્ટ નથી.
+                </div>
                 {% endif %}
 
                 {% if upcoming_deliveries %}
-                    <div class="alert alert-info mt-3" role="alert">
-                        <h6 class="alert-heading">
-                            <i class="bi bi-calendar-heart"></i> આગામી પ્રસવ
-                        </h6>
-                        <p class="mb-2">નીચેના પ્રાણીઓનો પ્રસવ નજીક છે:</p>
-                        <ul class="mb-0">
-                            {% for animal in upcoming_deliveries %}
-                                <li>
-                                    {{ animal.get_animal_type_display }} - {{ animal.tag_no }}
-                                    (અપેક્ષિત પ્રસવ: {{ animal.expected_delivery_date }})
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+                <div class="alert alert-info mt-3" role="alert">
+                    <h6 class="alert-heading">
+                        <i class="bi bi-calendar-heart"></i> આગામી પ્રસવ
+                    </h6>
+                    <p class="mb-2">નીચેના પ્રાણીઓનો પ્રસવ નજીક છે:</p>
+                    <ul class="mb-0">
+                        {% for animal in upcoming_deliveries %}
+                        <li>
+                            {{ animal.get_animal_type_display }} - {{ animal.tag_no }}
+                            (અપેક્ષિત પ્રસવ: {{ animal.expected_delivery_date }})
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
                 {% endif %}
             </div>
         </div>
@@ -171,41 +171,43 @@
             </div>
             <div class="card-body">
                 {% if recent_milk_records %}
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>તારીખ</th>
-                                    <th>પ્રાણી</th>
-                                    <th>લીટર</th>
-                                    <th>કુલ રકમ</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for record in recent_milk_records %}
-                                    <tr>
-                                        <td>{{ record.date }}</td>
-                                        <td>{{ record.animal.tag_no }}</td>
-                                        <td>{{ record.liters }} L</td>
-                                        <td>₹{{ record.total_amount }}</td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="text-center mt-3">
-                        <a href="{% url 'milk_records' %}" class="btn btn-primary">
-                            બધા રેકોર્ડ્સ જોઓ <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>તારીખ</th>
+                                <th>પ્રાણી</th>
+                                <th>લીટર</th>
+                                <th>દર</th>
+                                <th>કુલ રકમ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in recent_milk_records %}
+                            <tr>
+                                <td>{{ record.date }}</td>
+                                <td>{{ record.animal.tag_no }}</td>
+                                <td>{{ record.liters }} L</td>
+                                <td>₹{{ record.price_per_liter }}</td>
+                                <td>₹{{ record.total_amount }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="{% url 'milk_records' %}" class="btn btn-primary">
+                        બધા રેકોર્ડ્સ જોઓ <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
                 {% else %}
-                    <div class="text-center py-4">
-                        <i class="bi bi-droplet" style="font-size: 3rem; color: #ccc;"></i>
-                        <p class="mt-3 text-muted">હજુ સુધી કોઈ દૂધ રેકોર્ડ નથી.</p>
-                        <a href="{% url 'add_milk_record' %}" class="btn btn-success">
-                            <i class="bi bi-plus-circle"></i> પ્રથમ રેકોર્ડ ઉમેરો
-                        </a>
-                    </div>
+                <div class="text-center py-4">
+                    <i class="bi bi-droplet" style="font-size: 3rem; color: #ccc;"></i>
+                    <p class="mt-3 text-muted">હજુ સુધી કોઈ દૂધ રેકોર્ડ નથી.</p>
+                    <a href="{% url 'add_milk_record' %}" class="btn btn-success">
+                        <i class="bi bi-plus-circle"></i> પ્રથમ રેકોર્ડ ઉમેરો
+                    </a>
+                </div>
                 {% endif %}
             </div>
         </div>
