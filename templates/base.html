@@ -298,7 +298,7 @@
                 display: none !important;
             }
             .main-content {
-                margin-bottom: 60px !important;
+                margin-bottom: 80px !important;
             }
         }
         
@@ -716,6 +716,56 @@
             }
         }
 
+        /* Footer mobile responsiveness */
+        @media (max-width: 768px) {
+            .documind-footer {
+                padding: 15px 0 !important;
+                margin-top: 20px !important;
+                display: block !important;
+                visibility: visible !important;
+                position: relative !important;
+                z-index: 999 !important;
+                background: linear-gradient(135deg, #1a2a3a 0%, #0a0e12 100%) !important;
+                border-top: 1px solid var(--border-light) !important;
+            }
+            
+            .documind-footer p {
+                font-size: 0.75rem !important;
+                margin-bottom: 5px !important;
+                line-height: 1.2 !important;
+                color: var(--text-secondary) !important;
+            }
+            
+            .documind-footer p:last-child {
+                margin-bottom: 0 !important;
+            }
+            
+            .documind-footer .container {
+                padding: 0 15px !important;
+            }
+            
+            /* Ensure footer is above bottom nav */
+            body {
+                padding-bottom: 120px !important;
+            }
+        }
+
+        /* Additional mobile fix */
+        @media (max-width: 480px) {
+            .documind-footer {
+                padding: 10px 0 !important;
+                margin-top: 15px !important;
+            }
+            
+            .documind-footer p {
+                font-size: 0.7rem !important;
+            }
+            
+            body {
+                padding-bottom: 140px !important;
+            }
+        }
+
         /* Hide loader when content is loaded */
         .loader-overlay.hidden {
             opacity: 0;
@@ -947,6 +997,22 @@
             });
         });
     </script>
+    
+    <!-- મારું પશુધન Footer -->
+    <footer class="documind-footer" style="background: linear-gradient(135deg, #1a2a3a 0%, #0a0e12 100%); border-top: 1px solid var(--border-light); padding: 20px 0; margin-top: 40px; backdrop-filter: blur(10px);">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="mb-2" style="color: var(--text-secondary); font-size: 0.9rem;">
+                        © 2026 મારું પશુધન. All rights reserved.
+                    </p>
+                    <p class="mb-0" style="color: var(--text-secondary); font-size: 0.8rem;">
+                        Made with ❤️ by <a href="https://sppatel.pythonanywhere.com/" target="_blank" style="color: #3498db; text-decoration: none; transition: color 0.3s;"><strong>Sandip Patel</strong></a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
     
     {% block extra_js %}{% endblock %}
 </body>
