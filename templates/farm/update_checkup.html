@@ -23,8 +23,15 @@
                     {% csrf_token %}
                     
                     <div class="mb-3">
-                        <label for="{{ form.checkup_status.id_for_label }}" class="form-label">{{ form.checkup_status.label }}</label>
-                        {{ form.checkup_status }}
+                        <label class="form-label">{{ form.checkup_status.label }}</label>
+                        <div class="form-check">
+                            {% for choice in form.checkup_status %}
+                                <div class="form-check">
+                                    {{ choice.tag }}
+                                    {{ choice.choice_label }}
+                                </div>
+                            {% endfor %}
+                        </div>
                         {% if form.checkup_status.errors %}
                             <div class="text-danger">
                                 {{ form.checkup_status.errors.0 }}
@@ -34,7 +41,7 @@
                     
                     <div class="alert alert-warning">
                         <i class="bi bi-lightbulb"></i>
-                        <strong>મહત્વપૂર્ણ:</strong> જો તપાસ સકારાત્મક હોય તો જ અપેક્ષિત પ્રસવ તારીખ ગણાશે.
+                        <strong>મહત્વપૂર્ણ:</strong> જો તપાસ સકારાત્મક હોય તો જ અપેક્ષિત વિયાવા ની તારીખ ગણાશે.
                     </div>
                     
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">

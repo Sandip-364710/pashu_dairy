@@ -43,7 +43,7 @@
                 
                 {% if records %}
                     <div class="table-responsive">
-                        <table class="table table-striped">
+                        <table id="milkRecordsTable" class="table table-striped table-hover" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>તારીખ</th>
@@ -84,4 +84,38 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    $('#milkRecordsTable').DataTable({
+        responsive: true,
+        language: {
+            search: "શોધો:",
+            lengthMenu: "બતાવો _MENU_ રેકોર્ડ્સ",
+            info: "કુલ _TOTAL_ રેકોર્ડ્સમાંથી _START_ થી _END_ બતાવો",
+            paginate: {
+                first: "પ્રથમ",
+                last: "છેલ્લું",
+                next: "આગળ",
+                previous: "પાછળ"
+            },
+            emptyTable: "કોઈ રેકોર્ડ ઉપલબ્ધ નથી",
+            zeroRecords: "કોઈ રેકોર્ડ મેળખાયા નથી"
+        },
+        pageLength: 25,
+        order: [[0, 'desc']],
+        columnDefs: [
+            { targets: 0, width: '10%' },  // તારીખ
+            { targets: 1, width: '15%' },  // પ્રાણી
+            { targets: 2, width: '12%' },  // પ્રકાર
+            { targets: 3, width: '12%' },  // સમય
+            { targets: 4, width: '10%' },  // લીટર
+            { targets: 5, width: '10%' },  // દર
+            { targets: 6, width: '15%' }   // કુલ રકમ
+        ]
+    });
+});
+</script>
 {% endblock %}

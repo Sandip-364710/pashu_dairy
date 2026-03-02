@@ -9,7 +9,7 @@ from django.views.generic import TemplateView, CreateView, ListView, UpdateView,
 from django.views import View
 from django.urls import reverse
 from datetime import date, timedelta
-from .models import CustomUser, Animal, MilkRecord
+from .models import CustomUser, Animal, MilkRecord, Doctor
 from .forms import CustomUserCreationForm, CustomUserLoginForm, AnimalForm, AnimalTypeSelectionForm, CheckupStatusForm, MilkRecordForm
 
 
@@ -27,6 +27,20 @@ class RegisterView(FormView):
             login(self.request, user)
             messages.success(self.request, 'નોંધણી સફળ રહી!')
         return super().form_valid(form)
+    def form_invalid(self, form):
+        field_names_gujarati = {
+            'name': 'નામ',
+            'mobile': 'મોબાઇલ નંબર',
+            'village': 'ગામ',
+            'password1': 'પાસવર્ડ',
+            'password2': 'પાસવર્ડની પુષ્ટિ',
+        }
+        
+        for field, errors in form.errors.items():
+            field_name_gujarati = field_names_gujarati.get(field, field.capitalize())
+            for error in errors:
+                messages.error(self.request, f"{field_name_gujarati}: {error}")
+        return super().form_invalid(form)
 
 
 class LoginView(FormView):
@@ -37,14 +51,37 @@ class LoginView(FormView):
     def form_valid(self, form):
         mobile = form.cleaned_data['mobile']
         password = form.cleaned_data['password']
-        user = authenticate(self.request, username=mobile, password=password)
-        if user:
-            login(self.request, user)
-            messages.success(self.request, 'લોગિન સફળ રહ્યું!')
-            return super().form_valid(form)
-        else:
-            messages.error(self.request, 'મોબાઇલ નંબર અથવા પાસવર્ડ ખોટો છે')
+        
+        # First check if user exists with this mobile number
+        try:
+            user_obj = CustomUser.objects.get(mobile=mobile)
+            # User exists, now check password
+            user = authenticate(self.request, username=mobile, password=password)
+            if user:
+                login(self.request, user)
+                messages.success(self.request, 'તમે સફળતાપૂર્વક લોગિન થયા છો!')
+                return super().form_valid(form)
+            else:
+                # User exists but password is wrong
+                messages.error(self.request, 'પાસવર્ડ ખોટો છે')
+                return self.form_invalid(form)
+        except CustomUser.DoesNotExist:
+            # User with this mobile number doesn't exist
+            messages.error(self.request, 'મોબાઇલ નંબર ખોટો છે')
+            # જો વિગતો ખોટી હોય, તો આ મેસેજ બતાવો:
             return self.form_invalid(form)
+    
+    def form_invalid(self, form):
+        field_names_gujarati = {
+            'mobile': 'મોબાઇલ નંબર',
+            'password': 'પાસવર્ડ',
+        }
+        
+        for field, errors in form.errors.items():
+            field_name_gujarati = field_names_gujarati.get(field, field.capitalize())
+            for error in errors:
+                messages.error(self.request, f"{field_name_gujarati}: {error}")
+        return super().form_invalid(form)
 
 
 class LogoutView(View):
@@ -256,4 +293,6 @@ class ProfileView(LoginRequiredMixin, TemplateView):
 
 @login_required
 def guidance_view(request):
-    return render(request, 'farm/guidance.html')
+    # Get active doctors from database
+    doctors = Doctor.objects.filter(is_active=True).first()
+    return render(request, 'farm/guidance.html', {'doctor': doctors})

@@ -145,6 +145,10 @@
         background: linear-gradient(135deg, #8e44ad, #7d3c98);
     }
     
+    .badge-doctor {
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+    }
+    
     .card-title-custom {
         font-size: 1.3rem;
         font-weight: 600;
@@ -323,7 +327,7 @@
 </style>
 {% endblock %}
 
-{% block page_title %}{% endblock %}
+{% block page_title %}પશુ માર્ગદર્શન{% endblock %}
 
 {% block content %}
 <div class="container-fluid px-0">
@@ -536,6 +540,68 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Card 6: ડોક્ટરની માહિતી -->
+        {% if doctor %}
+        <div class="guidance-card">
+            <div class="card-header-custom">
+                <div class="color-badge badge-doctor">
+                    <i class="bi bi-person-badge"></i>
+                </div>
+                <h3 class="card-title-custom">ડોક્ટરની માહિતી</h3>
+            </div>
+            <div class="card-body-custom">
+                <!-- Doctor Image Section -->
+                <div style="text-align: center; margin-bottom: 1.5rem;">
+                    {% if doctor.image %}
+                        <img src="{{ doctor.image.url }}" alt="{{ doctor.name }}" style="width: 250px; height: 250px; border-radius: 50%; object-fit: cover; border: 4px solid rgba(231, 76, 60, 0.3); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3); image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; image-rendering: pixelated; filter: contrast(1.1) brightness(1.05); -webkit-filter: contrast(1.1) brightness(1.05);">
+                    {% endif %}
+                </div>
+                
+                <!-- Doctor Name -->
+                <div style="text-align: center; margin-bottom: 1.5rem;">
+                    <h4 style="color: #fff; font-size: 1.4rem; font-weight: 600; margin: 0;">{{ doctor.name }}</h4>
+                </div>
+                
+                <!-- Doctor Details -->
+                <div class="checklist-item">
+                    <div class="check-icon"></div>
+                    <div class="checklist-content">
+                        <div class="checklist-title">પશુચિકિત્સક</div>
+                        <div class="checklist-desc">{{ doctor.description }}</div>
+                    </div>
+                </div>
+                <div class="checklist-item">
+                    <div class="check-icon"></div>
+                    <div class="checklist-content">
+                        <div class="checklist-title">સંપર્ક નંબર</div>
+                        <div class="checklist-desc">{{ doctor.contact_number }}</div>
+                    </div>
+                </div>
+                <div class="checklist-item">
+                    <div class="check-icon"></div>
+                    <div class="checklist-content">
+                        <div class="checklist-title">ઉપલબ્ધતા</div>
+                        <div class="checklist-desc">{{ doctor.availability }}</div>
+                    </div>
+                </div>
+                <div class="checklist-item">
+                    <div class="check-icon"></div>
+                    <div class="checklist-content">
+                        <div class="checklist-title">વિશેષતા</div>
+                        <div class="checklist-desc">{{ doctor.specialization }}</div>
+                    </div>
+                </div>
+                <div class="checklist-item">
+                    <div class="check-icon"></div>
+                    <div class="checklist-content">
+                        <div class="checklist-title">સેવાઓ</div>
+                        <div class="checklist-desc">{{ doctor.services }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
         
         <!-- PDF Download CTA Banner -->
         <div class="pdf-cta-banner">

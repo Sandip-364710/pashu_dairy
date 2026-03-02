@@ -3,6 +3,7 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.db import models
 from django.utils import timezone
 from datetime import timedelta
+from django.core.validators import MinLengthValidator
 
 
 class CustomUserManager(BaseUserManager):
@@ -25,7 +26,7 @@ class CustomUser(AbstractUser):
     # આ લાઇન ઉમેરો જેથી username ફિલ્ડ નીકળી જાય
     username = None 
     
-    mobile = models.CharField(max_length=10, unique=True, verbose_name='મોબાઇલ નંબર')
+    mobile = models.CharField(max_length=10, unique=True, verbose_name='મોબાઇલ નંબર', validators=[MinLengthValidator(10)])
     village = models.CharField(max_length=100, verbose_name='ગામ')
     name = models.CharField(max_length=100, verbose_name='નામ')
     
@@ -64,8 +65,8 @@ class Animal(models.Model):
     
     CHECKUP_STATUS_CHOICES = [
         ('pending', 'બાકી'),
-        ('positive', 'સકારાત્મક'),
-        ('negative', 'નકારાત્મક'),
+        ('positive', 'ગર્ભવતી'),
+        ('negative', 'ગર્ભવતી નથી'),
     ]
     
     tag_no = models.CharField(max_length=20, unique=True, verbose_name='ટેગ નંબર')
@@ -142,3 +143,24 @@ class MilkRecord(models.Model):
     def save(self, *args, **kwargs):
         self.total_amount = self.liters * self.price_per_liter
         super().save(*args, **kwargs)
+
+
+class Doctor(models.Model):
+    name = models.CharField(max_length=100, verbose_name='ડોક્ટરનું નામ')
+    description = models.TextField(verbose_name='વર્ણન')
+    contact_number = models.CharField(max_length=15, verbose_name='સંપર્ક નંબર')
+    clinic_address = models.TextField(verbose_name='ક્લિનિક સરનામું')
+    availability = models.CharField(max_length=100, verbose_name='ઉપલબ્ધતા')
+    specialization = models.TextField(verbose_name='વિશેષતા')
+    services = models.TextField(verbose_name='સેવાઓ')
+    image = models.ImageField(upload_to='doctors/', verbose_name='ફોટો', null=True, blank=True)
+    is_active = models.BooleanField(default=True, verbose_name='સક્રિય')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name = 'ડોક્ટર'
+        verbose_name_plural = 'ડોક્ટરો'
+    
+    def __str__(self):
+        return self.name

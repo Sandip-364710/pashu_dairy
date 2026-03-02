@@ -15,7 +15,7 @@
             <div class="card-body">
                 {% if animals %}
                 <div class="table-responsive">
-                    <table class="table table-striped">
+                    <table id="animalListTable" class="table table-striped table-hover" style="width:100%">
                         <thead>
                             <tr>
                                 <th>ટેગ નંબર</th>
@@ -43,9 +43,9 @@
                                     <br><small class="text-danger">90 દિવસ પૂર્ણ!</small>
                                     {% endif %}
                                     {% elif animal.checkup_status == 'positive' %}
-                                    <span class="badge bg-success">સકારાત્મક</span>
+                                    <span class="badge bg-success">ગર્ભવતી</span>
                                     {% else %}
-                                    <span class="badge bg-danger">નકારાત્મક</span>
+                                    <span class="badge bg-danger">ગર્ભવતી નથી</span>
                                     {% endif %}
                                 </td>
                                 <td>
@@ -81,4 +81,39 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    $('#animalListTable').DataTable({
+        responsive: true,
+        language: {
+            search: "શોધો:",
+            lengthMenu: "બતાવો _MENU_ રેકોર્ડ્સ",
+            info: "કુલ _TOTAL_ રેકોર્ડ્સમાંથી _START_ થી _END_ બતાવો",
+            paginate: {
+                first: "પ્રથમ",
+                last: "છેલ્લું",
+                next: "આગળ",
+                previous: "પાછળ"
+            },
+            emptyTable: "કોઈ રેકોર્ડ ઉપલબ્ધ નથી",
+            zeroRecords: "કોઈ રેકોર્ડ મેળખાયા નથી"
+        },
+        pageLength: 25,
+        order: [[0, 'asc']],
+        columnDefs: [
+            { targets: 0, width: '12%' },  // ટેગ નંબર
+            { targets: 1, width: '10%' },  // પ્રકાર
+            { targets: 2, width: '12%' },  // જાત
+            { targets: 3, width: '12%' },  // બીજદાનની તારીખ
+            { targets: 4, width: '12%' },  // તપાસની તારીખ
+            { targets: 5, width: '15%' },  // તપાસ સ્થિતિ
+            { targets: 6, width: '12%' },  // અપેક્ષિત પ્રસવ
+            { targets: 7, width: '15%', orderable: false }  // ક્રિયા
+        ]
+    });
+});
+</script>
 {% endblock %}

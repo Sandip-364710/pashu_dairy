@@ -5,50 +5,293 @@
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-8 col-lg-6">
-        <div class="card">
-            <div class="card-header">
+        <div class="card profile-card">
+            <div class="card-header profile-header">
                 <h5><i class="bi bi-person-circle"></i> મારી પ્રોફાઇલ</h5>
             </div>
-            <div class="card-body">
-                <div class="row mb-4">
-                    <div class="col-12 text-center">
-                        <i class="bi bi-person-circle" style="font-size: 5rem; color: #28a745;"></i>
+            <div class="card-body profile-body">
+                <div class="profile-avatar-section">
+                    <div class="avatar-container">
+                        <div class="avatar-circle">
+                            <i class="bi bi-person-circle"></i>
+                        </div>
+                        <div class="avatar-badge">
+                            <i class="bi bi-patch-check-fill"></i>
+                        </div>
+                    </div>
+                    <h4 class="profile-name">{{ user.name }}</h4>
+                    <p class="profile-role">પશુપાલક</p>
+                </div>
+                
+                <div class="profile-info-section">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="bi bi-phone"></i>
+                            </div>
+                            <div class="info-content">
+                                <span class="info-label">મોબાઇલ નંબર</span>
+                                <span class="info-value">{{ user.mobile }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="bi bi-geo-alt"></i>
+                            </div>
+                            <div class="info-content">
+                                <span class="info-label">ગામ</span>
+                                <span class="info-value">{{ user.village }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="bi bi-calendar-check"></i>
+                            </div>
+                            <div class="info-content">
+                                <span class="info-label">નોંધણી તારીખ</span>
+                                <span class="info-value">{{ user.date_joined|date:"d/m/Y" }}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="row">
-                    <div class="col-12">
-                        <table class="table table-borderless">
-                            <tr>
-                                <td><strong>નામ:</strong></td>
-                                <td>{{ user.name }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>મોબાઇલ નંબર:</strong></td>
-                                <td>{{ user.mobile }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>ગામ:</strong></td>
-                                <td>{{ user.village }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>નોંધણી તારીખ:</strong></td>
-                                <td>{{ user.date_joined|date:"d/m/Y" }}</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-                
-                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                    <a href="{% url 'dashboard' %}" class="btn btn-primary">
-                        <i class="bi bi-house-door"></i> ડેશબોર્ડ પર જાઓ
+                <div class="profile-actions">
+                    <a href="{% url 'dashboard' %}" class="btn btn-primary action-btn">
+                        <i class="bi bi-house-door"></i> 
+                        <span>ડેશબોર્ડ પર જાઓ</span>
                     </a>
-                    <a href="{% url 'logout' %}" class="btn btn-danger">
-                        <i class="bi bi-box-arrow-right"></i> લોગઆઉટ
+                    <a href="{% url 'logout' %}" class="btn btn-danger action-btn">
+                        <i class="bi bi-box-arrow-right"></i> 
+                        <span>લોગઆઉટ</span>
                     </a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+.profile-card {
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.1) 0%, rgba(46, 204, 113, 0.1) 100%);
+    border: 1px solid rgba(52, 152, 219, 0.3);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.profile-header {
+    background: linear-gradient(135deg, #3498db 0%, #2ecc71 100%);
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.profile-header h5 {
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.profile-body {
+    padding: 30px;
+}
+
+.profile-avatar-section {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.avatar-container {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.avatar-circle {
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(135deg, #3498db 0%, #2ecc71 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 25px rgba(52, 152, 219, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.avatar-circle i {
+    font-size: 60px;
+    color: white;
+}
+
+.avatar-badge {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 30px;
+    height: 30px;
+    background: #2ecc71;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.avatar-badge i {
+    font-size: 14px;
+    color: white;
+}
+
+.profile-name {
+    color: #3498db;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-role {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-bottom: 0;
+    font-weight: 500;
+}
+
+.profile-info-section {
+    margin-bottom: 30px;
+}
+
+.info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.info-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateX(5px);
+}
+
+.info-icon {
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.info-icon i {
+    font-size: 20px;
+    color: white;
+}
+
+.info-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.info-label {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    margin-bottom: 2px;
+    font-weight: 500;
+}
+
+.info-value {
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    text-decoration: none;
+    min-width: 140px;
+    justify-content: center;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.action-btn i {
+    font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+    .profile-card {
+        margin: 10px;
+        border-radius: 15px;
+    }
+    
+    .profile-body {
+        padding: 20px;
+    }
+    
+    .avatar-circle {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .avatar-circle i {
+        font-size: 50px;
+    }
+    
+    .profile-name {
+        font-size: 1.5rem;
+    }
+    
+    .profile-actions {
+        flex-direction: column;
+    }
+    
+    .action-btn {
+        width: 100%;
+    }
+}
+</style>
 {% endblock %}

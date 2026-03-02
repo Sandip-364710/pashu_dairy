@@ -1,15 +1,20 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="gu">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}મારું પશુધન 🐄{% endblock %}</title>
+    <title>મારું પશુધન</title>
     
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
-    
+    <!-- DataTables CSS -->
+    <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" rel="stylesheet">
+     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <style>
         :root {
             --primary-green: #28a745;
@@ -78,9 +83,41 @@
         
         .page-header {
             color: var(--text-primary);
-            border-bottom: 1px solid var(--border-light);
-            padding-bottom: 15px;
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(52, 152, 219, 0.05));
+            border: 1px solid rgba(52, 152, 219, 0.3);
+            border-bottom: 2px solid #3498db;
+            padding: 20px;
             margin-bottom: 25px;
+            display: block;
+            text-align: center;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .page-header:hover::before {
+            left: 100%;
+        }
+        
+        .page-header h1 {
+            margin: 0;
+            font-weight: 600;
+            font-size: 1.8rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
         }
         
         .card {
@@ -227,12 +264,13 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: var(--bg-card);
+            background: linear-gradient(135deg, #1a2a3a 0%, #0a0e12 100%);
             border-top: 1px solid var(--border-light);
             padding: 0.5rem 0;
             z-index: 1000;
             display: none;
             backdrop-filter: blur(10px);
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
         }
         
         .bottom-nav .nav-link {
@@ -312,13 +350,418 @@
                 display: none;
             }
         }
+        
+        /* DataTables Custom Styling */
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            background: #3498db !important;
+            border-color: #3498db !important;
+            color: white !important;
+        }
+        
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background: rgba(52, 152, 219, 0.3) !important;
+            border-color: #3498db !important;
+        }
+        
+        .dataTables_wrapper .dataTables_filter input {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-light);
+            color: var(--text-primary);
+            border-radius: 8px;
+        }
+        
+        .dataTables_wrapper .dataTables_filter input:focus {
+            background: rgba(0, 0, 0, 0.3);
+            border-color: #3498db;
+            color: var(--text-primary);
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
+        }
+        
+        .dataTables_wrapper .dataTables_length select {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-light);
+            color: var(--text-primary);
+            border-radius: 8px;
+        }
+        
+        .table.dataTable {
+            background: transparent;
+        }
+        
+        .table.dataTable thead th {
+            background-color: rgba(52, 152, 219, 0.2) !important;
+            color: #3498db !important;
+            border-bottom: 1px solid var(--border-light) !important;
+        }
+        
+        .dataTables_info {
+            color: var(--text-secondary) !important;
+        }
+        
+        /* Mobile responsive adjustments */
+        @media (max-width: 768px) {
+            .dataTables_wrapper .dataTables_filter {
+                margin-bottom: 10px;
+            }
+            
+            .dataTables_wrapper .dataTables_length {
+                margin-bottom: 10px;
+            }
+            
+            .dataTables_wrapper .dataTables_paginate {
+                margin-top: 10px;
+            }
+            
+            /* Video responsive styles - Mobile */
+            .video-container {
+                position: relative;
+                width: 100%;
+                margin: 0 auto;
+                background: rgba(0, 0, 0, 0.3);
+                border-radius: 12px;
+                overflow: hidden;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            }
+            
+            .video-container video {
+                width: 100%;
+                height: auto;
+                min-height: 200px;
+                max-height: 300px;
+                object-fit: contain;
+                display: block;
+                border-radius: 12px;
+            }
+            
+            /* Ensure video controls are visible on mobile */
+            .video-container video::-webkit-media-controls-panel {
+                display: flex !important;
+                opacity: 1 !important;
+            }
+        }
+        
+        /* Desktop video styles */
+        @media (min-width: 769px) {
+            .video-container {
+                position: relative;
+                max-width: 100%;
+                margin: 0 auto;
+                background: rgba(0, 0, 0, 0.3);
+                border-radius: 12px;
+                overflow: hidden;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            }
+            
+            .video-container video {
+                width: 100%;
+                height: auto;
+                min-height: 400px;
+                max-height: 500px;
+                object-fit: contain;
+                display: block;
+                border-radius: 12px;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            
+            .video-container video:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            }
+            
+            /* Ensure video controls are visible on desktop */
+            .video-container video::-webkit-media-controls-panel {
+                display: flex !important;
+                opacity: 1 !important;
+            }
+        }
+        
+        /* Common video styles for all devices */
+        .video-container video {
+            background: #000;
+            border: 2px solid var(--border-light);
+        }
+        
+        /* Video controls enhancement */
+        .video-container video:focus {
+            outline: 2px solid #3498db;
+            outline-offset: 2px;
+        }
+        
+        /* User avatar circle for mobile navigation */
+        .user-avatar-circle {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+        
+        .user-avatar-circle i {
+            font-size: 14px;
+        }
+        
+        /* User initial styling */
+        .user-initial {
+            display: block;
+            font-size: 1.2rem;
+            margin-bottom: 0.2rem;
+            color: var(--text-secondary);
+            font-weight: bold;
+        }
+        
+        .nav-link.active .user-initial {
+            color: #3498db;
+        }
+
+        /* Loader Styles */
+        .loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a2a3a 0%, #0a0e12 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .loader-content {
+            text-align: center;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .loader-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+        }
+
+        .loader-cow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: url('{% static "logo.png" %}') center/contain no-repeat;
+            border-radius: 50%;
+            z-index: 2;
+            animation: cowPulse 2s ease-in-out infinite;
+        }
+
+        .loader-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            border: 2px solid transparent;
+            border-top: 2px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite;
+        }
+
+        .loader-circle:nth-child(2) {
+            width: 90%;
+            height: 90%;
+            border-top: 2px solid #28a745;
+            animation: spin 2s linear infinite reverse;
+        }
+
+        .loader-circle:nth-child(3) {
+            width: 80%;
+            height: 80%;
+            border-top: 2px solid #ffc107;
+            animation: spin 2.5s linear infinite;
+        }
+
+        .loader-milk-drops {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+
+        .milk-drop {
+            width: 8px;
+            height: 12px;
+            background: linear-gradient(to bottom, #ffffff, #3498db);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: dropFall 1.5s ease-in-out infinite;
+        }
+
+        .milk-drop:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .milk-drop:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .loader-text {
+            color: #3498db;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+            letter-spacing: 1px;
+            background: linear-gradient(45deg, #3498db, #28a745);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .loader-subtext {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            animation: pulse 2s ease-in-out infinite;
+            font-weight: 300;
+        }
+
+        .loader-progress {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin: 20px auto 0;
+            overflow: hidden;
+        }
+
+        .loader-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #3498db, #28a745, #ffc107);
+            border-radius: 2px;
+            animation: progressMove 2s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        @keyframes cowPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        @keyframes dropFall {
+            0% { 
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% { 
+                transform: translateY(40px) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        @keyframes progressMove {
+            0% { width: 0%; }
+            50% { width: 70%; }
+            100% { width: 100%; }
+        }
+
+        /* Mobile loader adjustments */
+        @media (max-width: 768px) {
+            .loader-container {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 20px;
+            }
+            
+            .loader-cow {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .loader-text {
+                font-size: 1.4rem;
+            }
+            
+            .loader-subtext {
+                font-size: 0.9rem;
+            }
+            
+            .loader-progress {
+                width: 150px;
+            }
+        }
+
+        /* Hide loader when content is loaded */
+        .loader-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
     </style>
     
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <!-- Top Navigation Removed -->
+    <!-- Loader -->
+    <div class="loader-overlay" id="pageLoader">
+        <div class="loader-content">
+            <div class="loader-container">
+                <div class="loader-circle"></div>
+                <div class="loader-circle"></div>
+                <div class="loader-circle"></div>
+                <div class="loader-cow"></div>
+                <div class="loader-milk-drops">
+                    <div class="milk-drop"></div>
+                    <div class="milk-drop"></div>
+                    <div class="milk-drop"></div>
+                </div>
+            </div>
+            <div class="loader-text">મારું પશુધન</div>
+            <div class="loader-subtext">ડેરી મેનેજમેન્ટ સિસ્ટમ</div>
+        </div>
+    </div>
 
+    <!-- Top Navigation Removed -->
+{% if messages %}
+      <script>
+          {% for message in messages %}
+          Toastify({
+            text: "{{ message }}",
+            gravity: "top",
+            className: "info",
+            position: "right",
+            style: {
+              background: "rgba(52, 152, 219, 0.3)",
+            }
+          }).showToast();
+          
+          {% endfor %}
+      </script>
+       {% endif %} 
     <div class="container-fluid main-container">
         <div class="row">
             <!-- Desktop Sidebar -->
@@ -388,21 +831,11 @@
             </nav>
 
             <!-- Main Content -->
-            <main class="col-md-9 ms-sm-auto col-lg-10 main-content">
-                <div class="page-header">
-                    <h1 class="h2">{% block page_title %}ડેરી મેનેજમેન્ટ{% endblock %}</h1>
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+                <div class="page-header" style="display: flex; align-items: center; justify-content: center; gap: 20px;">
+                    <img src="{% static 'logo.png' %}" alt="મારું પશુધન લોગો" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">
+                    <h1 class="h2" style="margin: 0;">{% block page_title %}ડેરી મેનેજમેન્ટ{% endblock %}</h1>
                 </div>
-
-                <!-- Messages -->
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                            {{ message }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        </div>
-                    {% endfor %}
-                {% endif %}
-
                 {% block content %}{% endblock %}
             </main>
         </div>
@@ -439,7 +872,11 @@
                 </li>
                 <li class="nav-item flex-fill">
                     <a class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}" href="{% url 'profile' %}">
-                        <i class="bi bi-person-fill"></i>
+                        {% if user.name %}
+                            <span class="user-initial">{{ user.name|first|upper }}</span>
+                        {% else %}
+                            <i class="bi bi-person-fill"></i>
+                        {% endif %}
                         <span>પ્રોફાઇલ</span>
                     </a>
                 </li>
@@ -448,8 +885,68 @@
     </nav>
     {% endif %}
 
+    <!-- jQuery (must be loaded first) -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+    
+    <!-- Loader Script -->
+    <script>
+        // Hide loader when page is fully loaded
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const loader = document.getElementById('pageLoader');
+                if (loader) {
+                    loader.classList.add('hidden');
+                }
+            }, 1500); // Show loader for at least 1.5 seconds for better UX
+        });
+
+        // Show loader on page navigation (for single page apps)
+        function showLoader() {
+            const loader = document.getElementById('pageLoader');
+            if (loader) {
+                loader.classList.remove('hidden');
+            }
+        }
+
+        // Hide loader function
+        function hideLoader() {
+            const loader = document.getElementById('pageLoader');
+            if (loader) {
+                loader.classList.add('hidden');
+            }
+        }
+
+        // Show loader when clicking on navigation links
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('a[href]');
+            links.forEach(link => {
+                // Skip external links and anchor links
+                if (link.hostname === window.location.hostname && !link.href.includes('#')) {
+                    link.addEventListener('click', function(e) {
+                        // Skip if it's a logout link or form submission
+                        if (!this.href.includes('logout') && !this.getAttribute('onclick')) {
+                            showLoader();
+                        }
+                    });
+                }
+            });
+        });
+
+        // Show loader on form submissions
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+            form.addEventListener('submit', function() {
+                showLoader();
+            });
+        });
+    </script>
     
     {% block extra_js %}{% endblock %}
 </body>

@@ -6,11 +6,18 @@ from .models import CustomUser, Animal, MilkRecord
 class CustomUserCreationForm(UserCreationForm):
     password1 = forms.CharField(
         label="પાસવર્ડ",
-        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'પાસવર્ડ દાખલ કરો'})
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'પાસવર્ડ દાખલ કરો'}),
+        error_messages={
+            'required': 'પાસવર્ડ આવશ્યક છે',
+            'min_length': 'પાસવર્ડ ઓછામાં ઓછા 8 અક્ષરનો હોવો જોઈએ',
+        }
     )
     password2 = forms.CharField(
         label="પાસવર્ડની પુષ્ટિ",
-        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'પાસવર્ડ ફરીથી દાખલ કરો'})
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'પાસવર્ડ ફરીથી દાખલ કરો'}),
+        error_messages={
+            'required': 'પાસવર્ડની પુષ્ટિ આવશ્યક છે',
+        }
     )
     
     class Meta:
@@ -26,6 +33,26 @@ class CustomUserCreationForm(UserCreationForm):
             'mobile': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'મોબાઇલ નંબર દાખલ કરો'}),
             'village': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'ગામનું નામ દાખલ કરો'}),
         }
+        error_messages = {
+            'name': {
+                'required': 'નામ આવશ્યક છે',
+                'max_length': 'નામ વધુમાં વધુ 100 અક્ષરનો હોઈ શકે છે',
+            },
+            'mobile': {
+                'required': 'મોબાઇલ નંબર આવશ્યક છે',
+                'max_length': 'મોબાઇલ નંબર વધુમાં વધુ 10 અંકનો હોઈ શકે છે',
+                'unique': 'આ મોબાઇલ નંબર પહેલેથી જ રજિસ્ટર થયેલ છે',
+                'min_length': 'મોબાઇલ નંબર ઓછામાં ઓછા 10 અંકનો હોવો જોઈએ',
+            },
+            'village': {
+                'required': 'ગામ આવશ્યક છે',
+                'max_length': 'ગામનું નામ વધુમાં વધુ 100 અક્ષરનો હોઈ શકે છે',
+            }
+        }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.error_messages['password_mismatch'] = 'બંને પાસવર્ડ મેળ ખાતા નથી'
 
 
 class CustomUserLoginForm(forms.Form):
@@ -36,14 +63,21 @@ class CustomUserLoginForm(forms.Form):
             'class': 'form-control',
             'placeholder': 'મોબાઇલ નંબર દાખલ કરો',
             'autofocus': True
-        })
+        }),
+        error_messages={
+            'required': 'મોબાઇલ નંબર આવશ્યક છે',
+            'max_length': 'મોબાઇલ નંબર વધુમાં વધુ 10 અંકનો હોઈ શકે છે',
+        }
     )
     password = forms.CharField(
         label='પાસવર્ડ',
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
             'placeholder': 'પાસવર્ડ દાખલ કરો'
-        })
+        }),
+        error_messages={
+            'required': 'પાસવર્ડ આવશ્યક છે',
+        }
     )
 
 
@@ -102,14 +136,17 @@ class AnimalTypeSelectionForm(forms.Form):
 
 
 class CheckupStatusForm(forms.ModelForm):
+    checkup_status = forms.ChoiceField(
+        choices=Animal.CHECKUP_STATUS_CHOICES,
+        widget=forms.RadioSelect(attrs={'class': 'form-check-input'}),
+        label='તપાસ સ્થિતિ'
+    )
+    
     class Meta:
         model = Animal
         fields = ['checkup_status']
         labels = {
             'checkup_status': 'તપાસ સ્થિતિ',
-        }
-        widgets = {
-            'checkup_status': forms.Select(attrs={'class': 'form-select'}),
         }
 
 

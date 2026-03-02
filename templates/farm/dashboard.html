@@ -1,9 +1,39 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block page_title %}ડેશબોર્ડ{% endblock %}
 
 {% block content %}
 <div class="row">
+    <!-- Gir Cow Video Section -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-play-circle-fill"></i> ગીર ગાય - પશુધન પરિચય
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="video-container" style="background: radial-gradient(circle at center, #1a2a3a 0%, #0a0e12 100%); padding: 20px; border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                            <video 
+                                class="w-100 rounded shadow-lg"
+                                autoplay loop muted playsinline
+                                style="background: rgba(255, 255, 255, 0.03);">
+                                
+                                <source src="{% static 'videos/Gir_Cow.mp4' %}" type="video/mp4">
+                                તમારું બ્રાઉઝર વિડિઓ ટેગ સપોર્ટ કરતું નથી.
+                            </video>
+                        </div>
+                        <div class="text-center mt-3">
+                            <h5 class="text-info">ગીર ગાય - ગુજરાતની શાન</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     <!-- Stats Cards -->
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card stat-card">
@@ -70,6 +100,8 @@
     </div>
 </div>
 
+
+
 <!-- Alerts Section -->
 <div class="row">
     <div class="col-12">
@@ -104,15 +136,12 @@
 
                 {% if upcoming_deliveries %}
                 <div class="alert alert-info mt-3" role="alert">
-                    <h6 class="alert-heading">
-                        <i class="bi bi-calendar-heart"></i> આગામી પ્રસવ
-                    </h6>
-                    <p class="mb-2">નીચેના પ્રાણીઓનો પ્રસવ નજીક છે:</p>
+                    <p class="mb-2">નીચેના પ્રાણીઓ વિયાવા ની નજીક છે:</p>
                     <ul class="mb-0">
                         {% for animal in upcoming_deliveries %}
                         <li>
                             {{ animal.get_animal_type_display }} - {{ animal.tag_no }}
-                            (અપેક્ષિત પ્રસવ: {{ animal.expected_delivery_date }})
+                            (વિયાવા: {{ animal.expected_delivery_date }})
                         </li>
                         {% endfor %}
                     </ul>
@@ -162,55 +191,4 @@
     </div>
 </div>
 
-<!-- Recent Milk Records -->
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <i class="bi bi-clock-history"></i> તાજેતરના દૂધ રેકોર્ડ્સ
-            </div>
-            <div class="card-body">
-                {% if recent_milk_records %}
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>તારીખ</th>
-                                <th>પ્રાણી</th>
-                                <th>લીટર</th>
-                                <th>દર</th>
-                                <th>કુલ રકમ</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for record in recent_milk_records %}
-                            <tr>
-                                <td>{{ record.date }}</td>
-                                <td>{{ record.animal.tag_no }}</td>
-                                <td>{{ record.liters }} L</td>
-                                <td>₹{{ record.price_per_liter }}</td>
-                                <td>₹{{ record.total_amount }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                <div class="text-center mt-3">
-                    <a href="{% url 'milk_records' %}" class="btn btn-primary">
-                        બધા રેકોર્ડ્સ જોઓ <i class="bi bi-arrow-right"></i>
-                    </a>
-                </div>
-                {% else %}
-                <div class="text-center py-4">
-                    <i class="bi bi-droplet" style="font-size: 3rem; color: #ccc;"></i>
-                    <p class="mt-3 text-muted">હજુ સુધી કોઈ દૂધ રેકોર્ડ નથી.</p>
-                    <a href="{% url 'add_milk_record' %}" class="btn btn-success">
-                        <i class="bi bi-plus-circle"></i> પ્રથમ રેકોર્ડ ઉમેરો
-                    </a>
-                </div>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-</div>
 {% endblock %}

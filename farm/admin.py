@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CustomUser, Animal, MilkRecord
+from .models import CustomUser, Animal, MilkRecord,Doctor
 
 
 @admin.register(CustomUser)
@@ -23,3 +23,5 @@ class MilkRecordAdmin(admin.ModelAdmin):
     search_fields = ['animal__tag_no', 'animal__owner__name']
     list_filter = ['date', 'animal__animal_type']
     readonly_fields = ['total_amount', 'created_at']
+
+admin.site.register(Doctor)
