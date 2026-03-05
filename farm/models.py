@@ -94,7 +94,7 @@ class Animal(models.Model):
     def expected_delivery_date(self):
         """Calculate expected delivery date"""
         if self.checkup_status == 'positive':
-            days = 280 if self.animal_type == 'cow' else 310
+            days = 285 if self.animal_type == 'cow' else 310
             return self.insemination_date + timedelta(days=days)
         return None
     
@@ -107,6 +107,19 @@ class Animal(models.Model):
     def needs_checkup_alert(self):
         """Check if 75 days alert needed"""
         return self.checkup_status == 'pending' and self.days_since_insemination >= 90
+    
+    @property
+    def delivery_alert_message(self):
+        """Get delivery alert message"""
+        if self.checkup_status == 'positive' and self.expected_delivery_date:
+            days_until_delivery = (self.expected_delivery_date - timezone.now().date()).days
+            animal_name = 'ગાય' if self.animal_type == 'cow' else 'ભેંસ'
+            
+            if days_until_delivery <= 60 and days_until_delivery >= 50:
+                return f"{animal_name} ({self.tag_no}) 2 મહિનામાં વિયાશે."
+            elif days_until_delivery <= 10 and days_until_delivery > 0:
+                return f"{animal_name} ({self.tag_no}) 10 દિવસમાં વિયાશે."
+        return None
 
 
 class MilkRecord(models.Model):

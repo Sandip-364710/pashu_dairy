@@ -134,14 +134,15 @@
                 </div>
                 {% endif %}
 
-                {% if upcoming_deliveries %}
+                {% if delivery_alerts %}
                 <div class="alert alert-info mt-3" role="alert">
-                    <p class="mb-2">નીચેના પ્રાણીઓ વિયાવા ની નજીક છે:</p>
+                    <h6 class="alert-heading">
+                        <i class="bi bi-bell-fill"></i> પશુ વિયાણની માહિતી
+                    </h6>
                     <ul class="mb-0">
-                        {% for animal in upcoming_deliveries %}
+                        {% for animal in delivery_alerts %}
                         <li>
-                            {{ animal.get_animal_type_display }} - {{ animal.tag_no }}
-                            (વિયાવા: {{ animal.expected_delivery_date }})
+                            <strong>{{ animal.delivery_alert_message }}</strong>
                         </li>
                         {% endfor %}
                     </ul>

@@ -124,6 +124,14 @@
         color: white;
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
     }
+    .checklist-desc a {
+    text-decoration: none; /* નીચેની લાઈન કાઢવા માટે */
+    color: inherit;        /* જેવો ટેક્સ્ટનો કલર હોય તેવો જ રાખવા માટે */
+    font-weight: bold;     /* જો તમારે નંબર થોડો ઘાટો રાખવો હોય */
+    }
+.checklist-desc a:hover {
+    text-decoration: underline;
+}
     
     .badge-insemination {
         background: linear-gradient(135deg, #3498db, #2980b9);
@@ -575,7 +583,9 @@
                     <div class="check-icon"></div>
                     <div class="checklist-content">
                         <div class="checklist-title">સંપર્ક નંબર</div>
-                        <div class="checklist-desc">{{ doctor.contact_number }}</div>
+                        <div class="checklist-desc">
+                            <a href="tel:{{ doctor.contact_number }}">{{ doctor.contact_number }}</a>
+                        </div>
                     </div>
                 </div>
                 <div class="checklist-item">

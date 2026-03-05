@@ -947,14 +947,20 @@
     
     <!-- Loader Script -->
     <script>
+        // Show loader immediately when script starts (browser-like behavior)
+        (function() {
+            const loader = document.getElementById('pageLoader');
+            if (loader) {
+                loader.classList.remove('hidden');
+            }
+        })();
+
         // Hide loader when page is fully loaded
         window.addEventListener('load', function() {
-            setTimeout(function() {
-                const loader = document.getElementById('pageLoader');
-                if (loader) {
-                    loader.classList.add('hidden');
-                }
-            }, 1500); // Show loader for at least 1.5 seconds for better UX
+            const loader = document.getElementById('pageLoader');
+            if (loader) {
+                loader.classList.add('hidden');
+            }
         });
 
         // Show loader on page navigation (for single page apps)
@@ -996,7 +1002,56 @@
                 showLoader();
             });
         });
-    </script>
+
+        // Browser Arrow Key Navigation
+        let currentHistoryIndex = 0;
+        
+        document.addEventListener('keydown', function(e) {
+            // Only handle arrow keys when not in input fields
+            if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) {
+                return;
+            }
+            
+            // Left arrow - Go back
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                if (window.history.length > 1) {
+                    showLoader();
+                    setTimeout(() => {
+                        window.history.back();
+                    }, 100);
+                }
+            }
+            // Right arrow - Go forward
+            else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                if (window.history.length > 1) {
+                    showLoader();
+                    setTimeout(() => {
+                        window.history.forward();
+                    }, 100);
+                }
+            }
+        });
+
+        
+        // Track navigation state
+        window.addEventListener('popstate', function() {
+            // Hide loader when navigation completes
+            setTimeout(() => {
+                hideLoader();
+            }, 500);
+        });
+
+        // Monitor page visibility changes
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                // Page became visible, hide loader
+                hideLoader();
+            }
+        });
+
+            </script>
     
     <!-- મારું પશુધન Footer -->
     <footer class="documind-footer" style="background: linear-gradient(135deg, #1a2a3a 0%, #0a0e12 100%); border-top: 1px solid var(--border-light); padding: 20px 0; margin-top: 40px; backdrop-filter: blur(10px);">

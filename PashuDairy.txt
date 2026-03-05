@@ -1,0 +1,31 @@
+Project Title: PashuDairy – Integrated Livestock & Dairy Management System
+Technologies Used:
+
+Backend: Python (Django Framework)
+
+Frontend: HTML5, CSS3, JavaScript, Bootstrap (Responsive Design)
+
+Database: SQLite 
+
+Hosting: PythonAnywhere Cloud
+
+Version Control: Git & GitHub
+
+Professional Project Description:
+End-to-End System Development: Architected and developed a full-stack web application designed to digitize dairy farm operations, replacing traditional manual record-keeping with a streamlined digital interface.
+
+Dynamic Data Management: Implemented a robust CRUD (Create, Read, Update, Delete) system to manage livestock profiles, allowing users to track cattle breeds, health history, vaccination schedules, and productivity cycles.
+
+Milk Production & Sales Analytics: Developed a comprehensive module to log daily milk collection, calculate fat percentages/rates, and generate automated reports for daily, weekly, and monthly sales performance.
+
+Inventory & Feed Optimization: Integrated an inventory management system to monitor cattle feed stock, medical supplies, and equipment, including automated alerts for low-stock scenarios.
+
+Secure Authentication & Authorization: Engineered a secure user authentication system using Django’s middleware, ensuring data privacy for farmers and preventing unauthorized access to sensitive financial records.
+
+Scalable Database Schema: Designed and optimized a relational database schema to handle high-frequency data entries related to milk production and financial transactions without latency.
+
+Responsive User Experience: Crafted a mobile-first UI/UX using Bootstrap and custom CSS, ensuring that farmers and dairy owners can access the portal seamlessly from smartphones, tablets, or desktops.
+
+Cloud Deployment & Maintenance: Successfully deployed the application on PythonAnywhere, configuring WSGI servers and managing static files to ensure 99.9% uptime for end-users.
+
+Financial Tracking: Built a dedicated ledger module to track expenses (feed, labor, medical) versus income (milk sales, livestock sales), providing a clear "Profit & Loss" overview for the business.

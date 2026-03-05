@@ -124,6 +124,12 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             checkup_status='positive'
         )
         
+        # Delivery alerts (animals with delivery messages)
+        delivery_alerts = []
+        for animal in animals.filter(checkup_status='positive'):
+            if animal.delivery_alert_message:
+                delivery_alerts.append(animal)
+        
         # Recent milk records
         recent_milk_records = MilkRecord.objects.filter(
             animal__owner=user
@@ -137,6 +143,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             'today_total_amount': today_total_amount,
             'checkup_alerts': checkup_alerts,
             'upcoming_deliveries': upcoming_deliveries,
+            'delivery_alerts': delivery_alerts,
             'recent_milk_records': recent_milk_records,
         })
         
